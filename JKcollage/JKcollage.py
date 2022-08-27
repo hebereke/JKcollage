@@ -4,8 +4,8 @@ import PIL.Image
 import PIL.ImageDraw
 import PIL.ImageFont
 import glob
+import random
 from pulp import *
-import numpy as np
 
 class JK(PIL.Image.Image):
     def __init__(self, p):
@@ -211,11 +211,11 @@ if __name__=='__main__':
     parser.add_argument('--method',\
         help = 'specify packing method [PuLP, BL]', default = 'BL')
     parser.add_argument('--frame_only',\
-        help = 'output frame only', action = 'store_true') 
+        help = 'output frame only', action = 'store_true')
     parser.add_argument('--display_result',\
         help = 'display result', action = 'store_true')
     parser.add_argument('--background_color',\
-        help = 'background color', default = 'white')    
+        help = 'background color', default = 'white')
     parser.add_argument('--title',\
         help = 'add title', action = 'store_true')
     parser.add_argument('--title_text',\
@@ -230,7 +230,7 @@ if __name__=='__main__':
     pics = []
     for f in args.folders:
         pics = pics + [JK(PIL.Image.open(f)) for f in glob.glob(os.path.join(f, '*.jpg'), recursive = args.recursive)]
-    if args.image_num is not None:   
+    if args.image_num is not None:
         pics = [pics[i] for i in range(args.image_num)]
     if args.title:
         title_im = title(args.title_text, args.title_font, args.title_size)
@@ -240,7 +240,7 @@ if __name__=='__main__':
     uw = norm(pics, args.width, area_tol = args.area_tol,\
         keep_aspect = args.keep_aspect, reserved_area = title_area)
     if args.title:
-        title_order = np.random.choice([i for i in range(len(pics))])
+        title_order = random.choice([i for i in range(len(pics))])
         orig_pics = pics
         pics = []
         for i in range(len(orig_pics)):
